@@ -4,9 +4,10 @@ library(fitdistrplus)
 set.seed(123)
 
 #' Simulate recurrence data
-#' @description 
-#' @param 
-#' @return
+#' @description Simulates whether recurrence occurs and time to recurrence for each patient, based on tumor grade
+#' @param data1 Reference data frame for recurrence data
+#' @param data2 Data frame that is missing recurrence data
+#' @return A modified version of data2 with columns for recurrence status and time to recurrence
 sim_recur <- function(data1, data2) {
   
   # calculate probability of recurrence for each tumor grade based on first data frame
@@ -48,9 +49,10 @@ sim_recur <- function(data1, data2) {
 
 
 #' Simulate survival data
-#' @description 
-#' @param 
-#' @return 
+#' @description Simulates death status and time to death for each patient, based on tumor grade and recurrence status
+#' @param data1 Reference data frame for survival data
+#' @param data2 Data frame that is missing survival data
+#' @return A modified version of data2 with columns for death status and time to death
 sim_surv <- function(data1, data2) {
   
   # calculate probability of death for each tumor grade and recurrence status based on first data frame
@@ -107,9 +109,11 @@ sim_surv <- function(data1, data2) {
 
 
 #' Simulates recurrence and survival data
-#' @description 
-#' @param 
-#' @return 
+#' @description Simulates recurrence status, time to recurrence, death status, and time to death.
+#' Passes results from recurrence data simulation to survival data simulation.
+#' @param data1 Reference data frame for recurrence and survival data
+#' @param data2 Data frame that is missing recurrence survival data
+#' @return A modified version of data2 with new columns for recurrence/survival information
 sim_data <- function(data1, data2) {
   df <- sim_recur(data1, data2)
   df <- sim_surv(data1, df)

@@ -5,9 +5,12 @@ library(broom)
 set.seed(123)
 
 #' Cox modeling for recurrence
-#' @description 
-#' @param 
-#' @return 
+#' @description Fits a Cox model for time to recurrence in the given data. 
+#' Saves coefficients in csv file and plots recurrence curve.
+#' Uses grade as a covariate, and treatment type if applicable
+#' @param data Input data frame with breast cancer data
+#' @param name Name of the dataset (string)
+#' @return Nothing
 cox_recur <- function(data, name) {
   
   # compute the cox model with tumor grade as covariate
@@ -45,9 +48,12 @@ cox_recur <- function(data, name) {
 
 
 #' Cox modeling for survival
-#' @description 
-#' @param 
-#' @return
+#' @description Fits a Cox model for time to death in the given data. 
+#' Saves coefficients in csv file and plots survival curve.
+#' Uses grade as a covariate, and treatment type if applicable
+#' @param data Input data frame with breast cancer data
+#' @param name Name of the dataset (string)
+#' @return Nothing
 cox_surv <- function(data, name) {
   
   # compute the cox model with tumor grade as covariate
