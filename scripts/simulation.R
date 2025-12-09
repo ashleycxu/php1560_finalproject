@@ -22,15 +22,16 @@ sim_recur <- function(data1, data2) {
     fit_list[[g]] <- fitw
   }
   
+  # initialize columns for recurrence status and time to recurrence
+  data2$recur <- NA
+  data2$rtime <- NA
+  
   # simulate time to recurrence based on tumor grade for each observation in second data frame
   for (i in 1:nrow(data2)) {
     # get tumor grade from current observation
-    g <- data2$histgrad[i]
-    if (is.na(g) | !g %in% unique(data1$grade)) {
-      # if tumor grade is NA or not found in first data frame, set recurrence status and time to NA
-      data2$recur[i] <- NA
-      data2$rtime[i] <- NA
-    } else {
+    g <- data2$grade[i]
+    # if tumor grade found in first data frame
+    if (g %in% unique(data1$grade)) {
       # determine recurrence status (0 or 1) based on probability from first data frame
       data2$recur[i] <- rbinom(n=1, size=1, prob=prob_df[prob_df$grade==g, ]$prob_recur)
       # if recurrence does happen, simulate time to recurrence
@@ -39,9 +40,6 @@ sim_recur <- function(data1, data2) {
         fitw <- fit_list[[g]]
         # randomly sample time to recurrence using the weibull distribution
         data2$rtime[i] <- rweibull(n=1, scale=fitw$estimate["scale"], shape=fitw$estimate["shape"])
-      } else {
-        # leave time to recurrence as NA if recurrence doesn't happen
-        data2$rtime[i] <- NA
       }
     }
   }
@@ -53,7 +51,7 @@ sim_recur <- function(data1, data2) {
 #' @description 
 #' @param 
 #' @return 
-sim_surviv <- function(data1, data2) {
+sim_surv <- function(data1, data2) {
   
   # calculate probability of death for each tumor grade and recurrence status based on first data frame
   prob_df <- data1 %>%
@@ -73,22 +71,23 @@ sim_surviv <- function(data1, data2) {
     fit_list1[[g]] <- fitw1
   }
   
+  # initialize columns for death status and time to death
+  data2$death <- NA
+  data2$dtime <- NA
+  
   # simulate time to death based on tumor grade for each observation in second data frame
   for (i in 1:nrow(data2)) {
     # get tumor grade from current observation
-    g <- data2$histgrad[i]
-    if (is.na(g) | !g %in% unique(data1$grade)) {
-      # if tumor grade is NA or not found in first data frame, set death status and time to NA
-      data2$death[i] <- NA
-      data2$dtime[i] <- NA
-    } else {
-      rstatus <- data2$recur[i]
+    g <- data2$grade[i]
+    # if tumor grade is found in first data frame
+    if (g %in% unique(data1$grade)) {
       # determine death status (0 or 1) based on probability from first data frame
+      # given tumor grade and recurrence status
       data2$death[i] <- rbinom(n=1, size=1, prob=subset(prob_df, grade==g & recur==data2$recur[i])$prob_death)
       # if deceased, simulate time to death
       if (data2$death[i]==1) {
+        # get correct distribution for the tumor grade based on recurrence status
         if (data2$recur[i]==0) {
-          # get correct distribution for the tumor grade based on recurrence status
           fitw <- fit_list0[[g]]
           # randomly sample time to death using the weibull distribution
           data2$dtime[i] <- rweibull(n=1, scale=fitw$estimate["scale"], shape=fitw$estimate["shape"])
@@ -100,9 +99,6 @@ sim_surviv <- function(data1, data2) {
             data2$dtime[i] <- rweibull(n=1, scale=fitw$estimate["scale"], shape=fitw$estimate["shape"])
           }
         }
-      } else {
-        # leave time to death as NA if patient isn't deceased
-        data2$dtime[i] <- NA
       }
     }
   }
@@ -110,11 +106,14 @@ sim_surviv <- function(data1, data2) {
 }
 
 
-
-run_sims <- function(nsims) {
-  for (i in 1:nsims) {
-    
-  }
+#' Simulates recurrence and survival data
+#' @description 
+#' @param 
+#' @return 
+sim_data <- function(data1, data2) {
+  df <- sim_recur(data1, data2)
+  df <- sim_surv(data1, df)
+  return(df)
 }
 
 
