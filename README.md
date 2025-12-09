@@ -17,8 +17,8 @@ The two breast cancer datasets used for this analysis are the `rotterdam` data f
 * The `cox.R` script
 * 
 
-**Results:** 
-The results folder contains
+**Results:** \
+The results folder contains results from preliminary data analysis as well as the results after simulation and Cox modeling.
 * Summary statistic tables for the `rotterdam` and `mammaca` data
 * Plots from inital fitting of a linear regression model looking at age, tumor grade, and time to recurrence/death
 * Plot results from fitting a Weibull distribution to the time to recurrence/death in the `rotterdam` data
