@@ -11,16 +11,15 @@ The two breast cancer datasets used for this analysis are the `rotterdam` data f
 * The second main component of the analysis involves fitting a Cox model to the data to analyze the relationship between different covariates and the time to recurrence/death.
 
 **Scripts:** 
-* The `main.R` script runs the entire data analysis, simulation, and visualization pipeline.
-* The 
-* The `simulation.R` script
-* The `cox.R` script
-* 
+* The `pipeline.R` script runs the entire data analysis, simulation, and visualization pipeline.
+* The `prelim_vis.R` script contains code for generating the initial tables and visuals for the `rotterdam` data.
+* The `simulation.R` script contains functions for simulating new recurrence and survival data.
+* The `cox.R` script contains functions for computing Cox models and plotting survival curves.
 
 **Results:** \
 The results folder contains results from preliminary data analysis as well as the results after simulation and Cox modeling.
 * Summary statistic tables for the `rotterdam` and `mammaca` data
-* Plots from inital fitting of a linear regression model looking at age, tumor grade, and time to recurrence/death
+* Plots from fitting a linear regression model looking at age, tumor grade, and time to recurrence/death (`rotterdam` data and simulated `mammaca` data)
 * Plot results from fitting a Weibull distribution to the time to recurrence/death in the `rotterdam` data
 * Histograms showing the distribution of time to recurrence/death in the `rotterdam` data and simulated `mammaca` data
 * Csv files with coefficients from Cox models for time to recurrence/death in the `rotterdam` data and simulated `mammaca` data
