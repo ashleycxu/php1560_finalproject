@@ -3,7 +3,6 @@ library(fitdistrplus)
 
 set.seed(123)
 
-
 #' Simulate recurrence data
 #' @description 
 #' @param 
@@ -48,13 +47,6 @@ sim_recur <- function(data1, data2) {
   }
   return(data2)
 }
-
-df2 <- sim_recur(rotterdam, mammaca)
-hist(df2$rtime)
-hist(df2[df2$histgrad==2, ]$rtime)
-hist(df2[df2$histgrad==3, ]$rtime)
-mean(df2[df2$histgrad==2, ]$recur, na.rm=TRUE)
-mean(df2[df2$histgrad==3, ]$recur, na.rm=TRUE)
 
 
 #' Simulate survival data
@@ -117,11 +109,6 @@ sim_surviv <- function(data1, data2) {
   return(data2)
 }
 
-df3 <- sim_surviv(rotterdam, df2)
-hist(df3[df3$histgrad==2, ]$dtime)
-hist(df3[df3$histgrad==3, ]$dtime)
-mean(df3[df3$histgrad==2, ]$death, na.rm=TRUE)
-mean(df3[df3$histgrad==3, ]$death, na.rm=TRUE)
 
 
 run_sims <- function(nsims) {

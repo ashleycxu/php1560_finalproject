@@ -64,18 +64,6 @@ ggplot(rotterdam[rotterdam$death==1, ], aes(x=as.factor(grade), y=dtime)) +
 
 
 
-library(dplyr)
-
-rotterdam_df1 <- rotterdam %>%
-  group_by(grade) %>%
-  summarize(prob_recur=mean(recur), prob_death=mean(death))
-
-rotterdam_df2 <- rotterdam %>%
-  filter(recur==1) %>%
-  group_by(grade) %>%
-  summarize(avg_rtime=mean(rtime), avg_dtime=mean(dtime))
-
-rotterdam_df <- merge(rotterdam_df1, rotterdam_df2, by="grade")
 
 
 hist(mammaca$age)
